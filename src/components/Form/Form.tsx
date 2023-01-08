@@ -1,6 +1,8 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
+import { Flex, Select } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import moment from "moment";
 import * as yup from "yup";
 
 const schema = yup.object({
@@ -8,7 +10,7 @@ const schema = yup.object({
   period: yup.number().required(),
 }).required();
 
-export const Form = (): React.ReactElement => {
+export const Form = ({ data }: { data: any }): React.ReactElement => {
   const { register, handleSubmit, formState:{ errors } } = useForm({
     resolver: yupResolver(schema)
   });
@@ -16,8 +18,16 @@ export const Form = (): React.ReactElement => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {/* // TODO add select field(s) */}
-      <input type="submit" />
+      <Flex gap={4}>
+          <Select value='AAPL'>
+            <option value='AAPL'>Apple</option>
+            <option value='AMZN'>Amazon</option>
+            <option value='TSLA'>Tesla</option>
+          </Select>
+          <Select placeholder='Select period'>
+            {data?.performance.map(([timestamp]: any) => <option key={timestamp} value={timestamp}>{moment(timestamp).calendar()}</option>)}
+          </Select>
+      </Flex>
     </form>
   );
 }
