@@ -1,17 +1,12 @@
+import React from "react";
+import moment from "moment";
 import HighchartsReact from "highcharts-react-official"
 import Highcharts from "highcharts"
 
-import moment from "moment";
-import React from "react";
+import type { StockResponse } from "../../types/stocks";
 
 export const LineChart = ({ data }: {
-  data: {
-    id: string;
-    ticker: string;
-    exchange: string;
-    companyName: string;
-    performance: [number, number][];
-  }
+  data: StockResponse
 }):React.ReactElement => {
   return (
     <HighchartsReact highcharts={Highcharts} options={
@@ -29,7 +24,7 @@ export const LineChart = ({ data }: {
           title: {
               text: 'null'
           }
-        }, series: [{ data: data?.performance.slice(0, 5) }]}
+        }, series: [{ data: data?.performance }]}
       }
     />
   );

@@ -1,17 +1,8 @@
 import axios from "axios";
 import { UseQueryResult, useQuery } from "react-query";
+import type { StockResponse, Ticker } from "../types/stocks";
 
-type PayloadType = string;
-
-export type StockResultsType = {
-  id: string;
-  ticker: string;
-  exchange: string;
-  companyName: string;
-  performance: [number, number][];
-};
-
-const getStock = async (payload: PayloadType) => {
+const getStock = async (payload: string) => {
   const { data } = await axios.get(
     `https://challenge.capintel.com/v1/stocks/${payload}`
   );
@@ -19,11 +10,11 @@ const getStock = async (payload: PayloadType) => {
 };
 
 export const useGetStock = (
-  ticker: "AAPL" | "TSLA" | "AMZN"
-): UseQueryResult<StockResultsType, unknown> =>
+  ticker: Ticker
+): UseQueryResult<StockResponse, unknown> =>
   useQuery(["stock", ticker], () => getStock(ticker), {
     staleTime: 0,
-    select: (res: StockResultsType) => {
+    select: (res: StockResponse) => {
       let initialInvestment = 10000;
       /**
        * create a new array from the {res.performance}
@@ -31,7 +22,7 @@ export const useGetStock = (
        * let initialInvestment = 10000
        * For example, If for the first period of 'AAPL' 2.036, it means it went up by 2.036%. The amount is now: 10 203.60$
        */
-      const modfifiedPerformance = res.performance.reduce(
+      const performance = res.performance.reduce(
         (acc, [timestamp, priceGrowth]) => {
           const initialAmount = (initialInvestment * priceGrowth) / 100; // 2.036
           initialInvestment = initialAmount + initialInvestment;
@@ -44,7 +35,7 @@ export const useGetStock = (
       );
       return {
         ...res,
-        performance: modfifiedPerformance,
+        performance,
       };
     },
     onError: (err) => err,

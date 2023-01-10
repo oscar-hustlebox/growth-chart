@@ -1,11 +1,12 @@
 import React from 'react';
 import { Card } from '@chakra-ui/react';
-import { StockResultsType, useGetStock } from '../../hooks/useGetStocks';
+import { useGetStock } from '../../hooks/useGetStocks';
 import { LineChart } from '../LineChart/LineChart';
 import { Form } from '../Form/Form';
+import type { Ticker } from '../../types/stocks';
 
 const Chart = (): React.ReactElement => {
-  const { data } = useGetStock('TSLA');
+  const { data } = useGetStock('TSLA' as Ticker);
 
   if (!data) return <></>;
   return (
