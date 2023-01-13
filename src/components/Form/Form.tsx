@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { ReactElement } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import { Flex, Select } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import moment from "moment";
 import * as yup from "yup";
-import { useGetStockPeriod } from '../../hooks/useGetStockPeriod';
 import type { StockResponse, Ticker } from '../../types/stocks';
 
 const schema = yup.object({
@@ -12,9 +11,8 @@ const schema = yup.object({
   period: yup.string().required(),
 }).required();
 
-export const Form = ({ data }: { data: StockResponse }): React.ReactElement => {
-  const { mutate } = useGetStockPeriod();
-  const { control, watch, formState: { isDirty }, handleSubmit, reset } = useForm({
+export const Form = ({ data }: { data: StockResponse }): ReactElement => {
+  const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       ticker: data.ticker || 'AAPL',
@@ -23,17 +21,9 @@ export const Form = ({ data }: { data: StockResponse }): React.ReactElement => {
     }
   });
 
-  const watchAllFields = watch();
-
-  useEffect(() => {
-    if (watchAllFields.ticker && isDirty) {
-      mutate({ ticker: watchAllFields.ticker, period: new Date(watchAllFields.period).getTime()});
-      reset();
-    }
-  }, [mutate, watchAllFields, reset, isDirty])
 
   const onSubmit = (data: { ticker: Ticker; period: number }) => {
-    mutate({ ticker: data.ticker, period: new Date(data.period).getTime()});
+    console.log(data);
   };
 
   return (
