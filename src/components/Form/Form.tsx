@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import { Flex, Select } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,23 +11,27 @@ const schema = yup.object({
   period: yup.string().required(),
 }).required();
 
-export const Form = ({ data }: { data: StockResponse }): ReactElement => {
-  const { control, handleSubmit } = useForm({
+export const Form = ({ data, handleFormChange }: {
+    data: StockResponse,
+    handleFormChange: (t: Ticker, p: number) => void
+}): ReactElement => {
+  const { control, watch } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      ticker: data.ticker || 'AAPL',
+      ticker: data.ticker,
       /* It's setting the default value of the period to the first timestamp in the data. */
       period: moment(data?.performance[0][0] || 0).calendar(),
     }
   });
 
+  const watchAllFields = watch();
 
-  const onSubmit = (data: { ticker: Ticker; period: number }) => {
-    console.log(data);
-  };
+  useEffect(() => {
+    handleFormChange(watchAllFields.ticker, watchAllFields.period);
+  }, [watchAllFields, handleFormChange])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form>
       <Flex gap={4}>
         <Controller
           name="ticker"

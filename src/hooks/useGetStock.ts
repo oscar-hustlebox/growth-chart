@@ -10,11 +10,10 @@ const getStock = async (ticker: string) => {
 };
 
 export const useGetStock = (
-  ticker: Ticker,
-  period?: string
+  ticker: Ticker
 ): UseQueryResult<StockResponse, unknown> =>
   useQuery({
-    queryKey: ["stock", ticker, period],
+    queryKey: ["stock", ticker],
     queryFn: () => getStock(ticker),
     staleTime: 0, // 0 means the data will never be stale
     enabled: !!ticker, // only fetch if ticker is defined
@@ -30,12 +29,10 @@ export const useGetStock = (
        * For example, If for the first period of 'AAPL' 2.036, it means it went up by 2.036%. The amount is now: 10 203.60$
        */
       const performance = data.performance.reduce(
-        (acc, [timestamp, priceGrowth]) => {
+        (acc: any, [timestamp, priceGrowth]) => {
           const initialAmount = (initialInvestment * priceGrowth) / 100; // 2.036
           initialInvestment = initialAmount + initialInvestment;
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          /* @ts-ignore to-fix */
-          acc.push([...[new Date(timestamp).toISOString(), initialInvestment]]);
+          acc.push([...[new Date(timestamp).toISOString(), initialInvestment]]); // 2021-01-01T00:00:00.000Z, 10203.6
           return acc;
         },
         []
