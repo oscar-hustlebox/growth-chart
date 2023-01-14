@@ -46,6 +46,6 @@ export const useGetStockPeriod = (
     enabled: !!ticker && !!period, // only fetch if ticker is defined
     onError: (err) => err,
     onSuccess: () => {
-      queryClient.invalidateQueries(["stock", ticker]);
+      queryClient.invalidateQueries(["stock", ticker]); // invalidate the previous query
     },
   });
