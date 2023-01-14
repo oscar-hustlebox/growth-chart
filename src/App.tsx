@@ -3,7 +3,7 @@ import './App.css';
 import { ChartView } from './components/Chart';
 import { ChakraProvider } from '@chakra-ui/react'
 
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme } from '@chakra-ui/react';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
 

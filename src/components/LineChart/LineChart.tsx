@@ -1,9 +1,9 @@
-import React, { ReactElement } from "react";
-import moment from "moment";
-import HighchartsReact from "highcharts-react-official"
-import Highcharts from "highcharts"
+import React, { ReactElement } from 'react';
+import moment from 'moment';
+import HighchartsReact from 'highcharts-react-official'
+import Highcharts from 'highcharts'
 
-import type { StockResponse } from "../../types/stocks";
+import type { StockResponse } from '../../types/stocks';
 
 type LineChartProps =  {
   data: StockResponse
@@ -15,36 +15,36 @@ export const LineChart = ({ data }: LineChartProps):ReactElement => (
     options={
       {
         chart: {
-            marginLeft: 70,
-            credits: {
-                enabled: false,
-                text: '',
-            }
+          marginLeft: 70,
+          credits: {
+            enabled: false,
+            text: '',
+          }
         },
         title: {
-            display: false,
-            text: null,
-          },
-          subtitle: {
-            text: null,
+          display: false,
+          text: null,
+        },
+        subtitle: {
+          text: null,
         },
         xAxis: {
-            categories: data?.performance.map(([timestamp]) => moment(timestamp).calendar()),
-            title: {
-                text: 'Date (MM/DD/YYYY)'
-            }
+          categories: data?.performance.map(([timestamp]) => moment(timestamp).calendar()),
+          title: {
+            text: 'Date (MM/DD/YYYY)'
+          }
         },
         yAxis: {
-            title: {
-                text: 'Growth ($)',
-            },
+          title: {
+            text: 'Growth ($)',
+          },
         },
         legend: {
-            enabled: false
+          enabled: false
         },
-        series: [
-            { data: data?.performance }
-        ],
+        series: [{
+          data: data?.performance
+        }],
       }
     }
   />

@@ -1,1 +1,1 @@
-export { default as ChartView } from "./Chart";
+export { default as ChartView } from './Chart';

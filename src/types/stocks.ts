@@ -1,4 +1,4 @@
-export type Ticker = "AAPL" | "TSLA" | "AMZN";
+export type Ticker = 'AAPL' | 'TSLA' | 'AMZN';
 
 export type StockResponse = {
   id: string;

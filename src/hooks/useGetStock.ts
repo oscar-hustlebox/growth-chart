@@ -1,6 +1,6 @@
-import axios from "axios";
-import { UseQueryResult, useQuery } from "react-query";
-import type { StockResponse, Ticker } from "../types/stocks";
+import axios from 'axios';
+import { UseQueryResult, useQuery } from 'react-query';
+import type { StockResponse, Ticker } from '../types/stocks';
 
 const getStock = async (ticker: string) => {
   const { data } = await axios.get(
@@ -13,7 +13,7 @@ export const useGetStock = (
   ticker: Ticker
 ): UseQueryResult<StockResponse, unknown> =>
   useQuery({
-    queryKey: ["stock", ticker],
+    queryKey: ['stock', ticker],
     queryFn: () => getStock(ticker),
     staleTime: 0, // 0 means the data will never be stale
     enabled: !!ticker, // only fetch if ticker is defined

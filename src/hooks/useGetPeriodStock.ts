@@ -1,7 +1,7 @@
-import axios from "axios";
-import moment from "moment";
-import { UseQueryResult, useQuery, QueryClient } from "react-query";
-import type { StockResponse, Ticker } from "../types/stocks";
+import axios from 'axios';
+import moment from 'moment';
+import { UseQueryResult, useQuery, QueryClient } from 'react-query';
+import type { StockResponse, Ticker } from '../types/stocks';
 
 const getStockPeriod = async (ticker: Ticker, period: number) => {
   const { data } = await axios.get(
@@ -14,7 +14,7 @@ const getStockPeriod = async (ticker: Ticker, period: number) => {
   const performance = data.performance
     .filter(([timestamp]: any) => {
       // subtract the period by 3 years
-      const threeYearPrevious = moment(period).subtract(3, "years").valueOf();
+      const threeYearPrevious = moment(period).subtract(3, 'years').valueOf();
       /**
        * filter out timestamps after the period (Unix Timestamp) but not equal to the period
        */
@@ -40,12 +40,12 @@ export const useGetStockPeriod = (
   period: number
 ): UseQueryResult<StockResponse, unknown> =>
   useQuery({
-    queryKey: ["stock", ticker, period],
+    queryKey: ['stock', ticker, period],
     queryFn: () => getStockPeriod(ticker, period),
     staleTime: 0, // 0 means the data will never be stale
     enabled: !!ticker && !!period, // only fetch if ticker is defined
     onError: (err) => err,
     onSuccess: () => {
-      queryClient.invalidateQueries(["stock", ticker]); // invalidate the previous query
+      queryClient.invalidateQueries(['stock', ticker]); // invalidate the previous query
     },
   });

@@ -1,9 +1,9 @@
 import React, { ReactElement, useEffect } from 'react';
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from 'react-hook-form';
 import { Flex, Select } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import moment from "moment";
-import * as yup from "yup";
+import moment from 'moment';
+import * as yup from 'yup';
 import type { StockResponse, Ticker } from '../../types/stocks';
 
 const schema = yup.object({
@@ -34,7 +34,7 @@ export const Form = ({ data, handleFormChange }: {
     <form>
       <Flex gap={4}>
         <Controller
-          name="ticker"
+          name='ticker'
           control={control}
           render={({ field }) => (
             <Select {...field}>
@@ -45,7 +45,7 @@ export const Form = ({ data, handleFormChange }: {
           )}
         />
         <Controller
-          name="period"
+          name='period'
           control={control}
           render={({ field }) => (
             <Select {...field}>
