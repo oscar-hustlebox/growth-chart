@@ -2,12 +2,12 @@ import axios from 'axios';
 import moment from 'moment';
 import { UseQueryResult, useQuery, QueryClient } from 'react-query';
 import type { StockResponse, Ticker } from '../types/stocks';
+import { calculatePerformance } from '../utils';
 
 const getStockPeriod = async (ticker: Ticker, period: number) => {
   const { data } = await axios.get(
     `https://challenge.capintel.com/v1/stocks/${ticker}`
   );
-  let initialInvestment = 10000;
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -24,14 +24,11 @@ const getStockPeriod = async (ticker: Ticker, period: number) => {
         moment(timestamp) === moment(period)
       );
     })
-    .reduce((acc: any, [timestamp, priceGrowth]: any) => {
-      const initialAmount = (initialInvestment * priceGrowth) / 100; // 2.036
-      initialInvestment = initialAmount + initialInvestment;
-      acc.push([...[new Date(timestamp).toISOString(), initialInvestment]]); // 2021-01-01T00:00:00.000Z, 10203.6
-      return acc;
-    }, []);
 
-  return { ...data, performance };
+    // use utility function to calculate the performance calculatePerformance()
+    const calculatedPerformance = calculatePerformance(performance);
+
+  return { ...data, performance: calculatedPerformance };
 };
 
 const queryClient = new QueryClient();
