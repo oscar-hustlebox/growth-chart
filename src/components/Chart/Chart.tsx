@@ -17,9 +17,9 @@ const Chart = (): ReactElement => {
     setPeriod(periodMax);
   }
 
-  if (stockLoading && stockPeriodLoading) {
+  if (stockLoading || stockPeriodLoading) {
     return (
-      <Flex alignItems='center' justifyContent="center" mx="auto" height="full">
+      <Flex alignItems='center' justifyContent="center" mx="auto" my="-100px" height="full">
         <Spinner
           thickness='4px'
           speed='0.65s'
