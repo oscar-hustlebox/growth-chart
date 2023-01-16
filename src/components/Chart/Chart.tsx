@@ -17,7 +17,7 @@ const Chart = (): ReactElement => {
     setPeriod(periodMax);
   }
 
-  if (stockLoading || stockPeriodLoading) {
+  if (stockLoading && stockPeriodLoading) {
     return (
       <Flex alignItems='center' justifyContent="center" mx="auto" my="-100px" height="full">
         <Spinner
@@ -41,7 +41,7 @@ const Chart = (): ReactElement => {
       </Flex>
       <Card p={8} pt={10} mx={20} bgColor='white' boxShadow='2xl'>
         <LineChart data={stockPeriodData?.performance.length ? stockPeriodData : stockData} />
-        <Form data={stockData} handleFormChange={handleFormChange} />
+        <Form data={stockData} period={period} handleFormChange={handleFormChange} />
       </Card>
     </>
   );

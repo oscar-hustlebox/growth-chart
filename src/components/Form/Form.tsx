@@ -11,8 +11,9 @@ const schema = yup.object({
   period: yup.string().required(),
 }).required();
 
-export const Form = ({ data, handleFormChange }: {
+export const Form = ({ data, period, handleFormChange }: {
     data: StockResponse,
+    period: number,
     handleFormChange: (t: Ticker, p: number) => void
 }): ReactElement => {
   const { control, watch } = useForm({
@@ -20,7 +21,7 @@ export const Form = ({ data, handleFormChange }: {
     defaultValues: {
       ticker: data.ticker,
       /* It's setting the default value of the period to the first timestamp in the data. */
-      period: moment(data?.performance[0][0] || 0).calendar(),
+      period: moment(period).calendar() || moment(data.performance[0][0]).calendar(),
     }
   });
 

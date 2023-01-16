@@ -42,7 +42,4 @@ export const useGetStockPeriod = (
     staleTime: 0, // 0 means the data will never be stale
     enabled: !!ticker && !!period, // only fetch if ticker is defined
     onError: (err) => err,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['stock', ticker]); // invalidate the previous query
-    },
   });
